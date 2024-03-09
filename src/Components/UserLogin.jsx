@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { contractABI, contractAddress } from "../config";
+import { Link } from "react-router-dom";
 
 const UserLogin = () => {
   const [username, setUsername] = useState("");
@@ -75,6 +76,7 @@ const UserLogin = () => {
         alert("Incorrect username or password");
       }
   
+
       setUsername("");
       setPassword("");
     } catch (error) {
@@ -120,6 +122,7 @@ const UserLogin = () => {
           </tr>
         </table>
       </div>
+      New User? <Link to="/register">Register here</Link>
     </div>
   );
 };

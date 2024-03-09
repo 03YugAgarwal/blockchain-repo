@@ -3,5 +3,5 @@
 // import TodoListContract from process.env.PUBLIC_URL + '/build/contracts/TodoList.json';
 import RegistratonContract from "contracts/Registration.json";
 
-export const contractAddress = "0xE236C28b3CB03507AEA6EbF337Ed45FFACa056ed";
+export const contractAddress = "0xF2fce23cfB9B182A0909aEf34afAff1c6886eF76";
 export const contractABI = RegistratonContract.abi;

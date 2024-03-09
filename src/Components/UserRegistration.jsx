@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { contractABI, contractAddress } from "../config";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const UserRegistration = () => {
   const [username, setUsername] = useState("");
@@ -116,6 +116,7 @@ const UserRegistration = () => {
           </tr>
         </table>
       </div>
+      Login: <Link to="/login">Login</Link>
     </div>
   );
 };

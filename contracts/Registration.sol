@@ -14,6 +14,17 @@ contract Registration {
         string password;
     }
 
+    struct RegistrationData{
+        uint registerId;
+        string username;
+        string vehicleNo;
+        string vehicleType;
+        string vehicleModel;
+        string vehicleCompany;
+        string vehicleColor;
+        bool approved;
+    }
+
 
   modifier restricted() {
     if (msg.sender == owner) _;
@@ -22,17 +33,23 @@ contract Registration {
     mapping(uint => User) public users;
     uint public userCount = 0;
 
+    mapping(uint => RegistrationData) public registrationData;
+    uint public registrationCount = 0;
+
     function createUser(string memory _username, string memory _password) public {
         userCount++;
         users[userCount] = User(userCount, _username, _password);
     }
 
-  function setCompleted(uint completed) public restricted {
-    last_completed_migration = completed;
-  }
+    function createRegistrationData(string memory _username, string memory _vehicleNo, string memory _vehicleType, string memory _vehicleModel, string memory _vehicleCompany, string memory _vehicleColor) public {
+        registrationCount++;
+        registrationData[registrationCount] = RegistrationData(registrationCount, _username, _vehicleNo, _vehicleType, _vehicleModel, _vehicleCompany, _vehicleColor, false);
+    }
 
-  function upgrade(address new_address) public restricted {
-    Registration upgraded = Registration(new_address);
-    upgraded.setCompleted(last_completed_migration);
-  }
+    function approveRegistration(uint _registerId) public {
+        require(msg.sender == owner, "Only owner can approve registration");
+        require(_registerId > 0 && _registerId <= registrationCount, "Invalid registration ID");
+        registrationData[_registerId].approved = true;
+    }
+
 }
