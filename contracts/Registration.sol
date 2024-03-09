@@ -8,9 +8,24 @@ contract Registration {
     owner = msg.sender;
   }
 
+   struct User {
+        uint id;
+        string username;
+        string password;
+    }
+
+
   modifier restricted() {
     if (msg.sender == owner) _;
   }
+
+    mapping(uint => User) public users;
+    uint public userCount = 0;
+
+    function createUser(string memory _username, string memory _password) public {
+        userCount++;
+        users[userCount] = User(userCount, _username, _password);
+    }
 
   function setCompleted(uint completed) public restricted {
     last_completed_migration = completed;
