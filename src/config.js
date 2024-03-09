@@ -3,5 +3,8 @@
 // import TodoListContract from process.env.PUBLIC_URL + '/build/contracts/TodoList.json';
 import RegistratonContract from "contracts/Registration.json";
 
-export const contractAddress = "0xF2fce23cfB9B182A0909aEf34afAff1c6886eF76";
+// export const contractAddress = "0xfB8947743e98dE53CAcc5C0058FC34E6280e643B";
+export const contractAddress = RegistratonContract.networks["5777"].address;
 export const contractABI = RegistratonContract.abi;
+// const addressValue = RegistratonContract.networks["5777"].address;
+// console.log(addressValue);

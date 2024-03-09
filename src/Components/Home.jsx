@@ -93,11 +93,14 @@ const Home = () => {
         </table>
       )}
 
-    <h3>Register New Vehicle</h3>
-    <button onClick={() => {
-      window.location.href = "/new";
-    }}>Register New Vehicle</button>
-
+      <h3>Register New Vehicle</h3>
+      <button
+        onClick={() => {
+          window.location.href = "/new";
+        }}
+      >
+        Register New Vehicle
+      </button>
     </div>
   );
 };

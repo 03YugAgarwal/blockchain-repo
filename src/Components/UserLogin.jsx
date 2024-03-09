@@ -12,9 +12,9 @@ const UserLogin = () => {
     useState(null);
   const [users, setUsers] = useState([]);
 
-    useEffect(() => {
-      if(window.localStorage.getItem("username") !== null){
-        window.location.href = "/";
+  useEffect(() => {
+    if (window.localStorage.getItem("username") !== null) {
+      window.location.href = "/";
     }
     const loadBlockchainData = async () => {
       try {
@@ -51,7 +51,6 @@ const UserLogin = () => {
       console.error("Error fetching user data:", error);
     }
   };
-  
 
   const handleSubmit = async () => {
     try {
@@ -64,18 +63,18 @@ const UserLogin = () => {
       if (!username || !password) {
         throw new Error("Please provide both username and password");
       }
-  
-      const userExists = users.some((user) => user.username === username && user.password === password);
-  
+
+      const userExists = users.some(
+        (user) => user.username === username && user.password === password
+      );
+
       if (userExists) {
         console.log("User login successful");
         window.localStorage.setItem("username", username);
         window.location.href = "/";
-
       } else {
         alert("Incorrect username or password");
       }
-  
 
       setUsername("");
       setPassword("");
@@ -83,7 +82,6 @@ const UserLogin = () => {
       console.error("Error logging in user:", error);
     }
   };
-  
 
   return (
     <div>
