@@ -12,16 +12,36 @@ const UserRegistration = () => {
     useState(null);
 
   useEffect(() => {
+
+    if(window.localStorage.getItem("username") !== null){
+        // window.location.href = "/login";
+    }
+
     const loadBlockchainData = async () => {
       try {
         const web3 = new Web3(Web3.givenProvider || "http://127.0.0.1:7545");
         setWeb3(web3);
+        // let provider = window.ethereum;
+        // console.log(provider);
+
+        // if (typeof provider !== 'undefined') {
+        //     //Metamask is installed
+        //     provider
+        //     .request({method: 'eth_requestAccounts' })
+        //     .then((accounts) => {
+        //     console.log(accounts);
+        //     })
+        //     .catch((err) => {
+        //     console.log(err);
+        //     });
+        // }
+
         const userRegistrationContract = new web3.eth.Contract(
           contractABI,
           contractAddress
         );
         const accounts = await web3.eth.getAccounts();
-        console.log(accounts);
+        // console.log(accounts);
         setUserRegistrationContract(userRegistrationContract);
         setAccount(accounts[0]);
       } catch (error) {
@@ -50,6 +70,7 @@ const UserRegistration = () => {
       setUsername("");
       setPassword("");
       console.log("User registration successful");
+      window.localStorage.setItem("username", username);
     } catch (error) {
       console.error("Error registering user:", error);
     }
