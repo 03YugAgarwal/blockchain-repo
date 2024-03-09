@@ -1,57 +1,56 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { contractABI, contractAddress } from "../config";
-import { useNavigate } from "react-router-dom";
 
-const UserRegistration = () => {
+const UserLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [web3, setWeb3] = useState(null);
-
   const [account, setAccount] = useState("");
   const [userRegistrationContract, setUserRegistrationContract] =
     useState(null);
+  const [users, setUsers] = useState([]);
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (window.localStorage.getItem("username") !== null) {
-      window.location.href = "/";
+    useEffect(() => {
+      if(window.localStorage.getItem("username") !== null){
+        window.location.href = "/";
     }
-
     const loadBlockchainData = async () => {
       try {
         const web3 = new Web3(Web3.givenProvider || "http://127.0.0.1:7545");
         setWeb3(web3);
-        // let provider = window.ethereum;
-        // console.log(provider);
-
-        // if (typeof provider !== 'undefined') {
-        //     //Metamask is installed
-        //     provider
-        //     .request({method: 'eth_requestAccounts' })
-        //     .then((accounts) => {
-        //     console.log(accounts);
-        //     })
-        //     .catch((err) => {
-        //     console.log(err);
-        //     });
-        // }
-
         const userRegistrationContract = new web3.eth.Contract(
           contractABI,
           contractAddress
         );
         const accounts = await web3.eth.getAccounts();
-        // console.log(accounts);
         setUserRegistrationContract(userRegistrationContract);
         setAccount(accounts[0]);
+        await fetchUserData(userRegistrationContract);
       } catch (error) {
         console.error("Error loading blockchain data:", error);
       }
     };
     loadBlockchainData();
   }, []);
+
+  const fetchUserData = async (contract) => {
+    try {
+      const userCount = await contract.methods.userCount().call();
+      // console.log("User count:", userCount);
+      const usersArray = [];
+      for (let i = 1; i <= userCount; i++) {
+        const user = await contract.methods.users(i).call();
+        // console.log("User fetched:", user);
+        usersArray.push(user);
+      }
+      // console.log("Fetched users:", usersArray);
+      setUsers(usersArray);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  
 
   const handleSubmit = async () => {
     try {
@@ -64,24 +63,29 @@ const UserRegistration = () => {
       if (!username || !password) {
         throw new Error("Please provide both username and password");
       }
+  
+      const userExists = users.some((user) => user.username === username && user.password === password);
+  
+      if (userExists) {
+        console.log("User login successful");
+        window.localStorage.setItem("username", username);
+        window.location.href = "/";
 
-      await userRegistrationContract.methods
-        .createUser(username, password)
-        .send({ from: account });
-
+      } else {
+        alert("Incorrect username or password");
+      }
+  
       setUsername("");
       setPassword("");
-    // await alert("User registration successful");
-      window.localStorage.setItem("username", username);
-      navigate("/");
     } catch (error) {
-      console.error("Error registering user:", error);
+      console.error("Error logging in user:", error);
     }
   };
+  
 
   return (
     <div>
-      <h1>User Registration</h1>
+      <h1>User Login</h1>
       <div>
         <table>
           <tr>
@@ -120,4 +124,4 @@ const UserRegistration = () => {
   );
 };
 
-export default UserRegistration;
+export default UserLogin;
