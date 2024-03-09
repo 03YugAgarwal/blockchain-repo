@@ -3,11 +3,11 @@ import Web3 from "web3";
 import { contractABI, contractAddress } from "../config";
 
 const GovtView = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const storedLoginStatus = localStorage.getItem("isLoggedIn");
+  const [isLoggedIn, setIsLoggedIn] = useState(storedLoginStatus === "true");
   const [vehicleData, setVehicleData] = useState([]);
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     const fetchVehicleData = async () => {
@@ -45,7 +45,9 @@ const GovtView = () => {
       );
       const account = (await web3.eth.getAccounts())[0];
       const vehicleId = index + 1; // Add 1 to index to match with vehicleId in the contract
-      await registrationContract.methods.approveRegistration(vehicleId).send({ from: account });
+      await registrationContract.methods
+        .approveRegistration(vehicleId)
+        .send({ from: account });
       // Update the vehicle data after approval
       const updatedVehicleData = [...vehicleData];
       updatedVehicleData[index].approved = true;
@@ -57,14 +59,18 @@ const GovtView = () => {
   };
 
   const handleLogin = () => {
-
-    if(username !== 'govt'){
-      alert('Invalid Credentials')
+    if (username !== "govt") {
+      alert("Invalid Credentials");
       return;
     }
-
+    localStorage.setItem("isLoggedIn", "true");
     setIsLoggedIn(true);
-  }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+  };
 
   return (
     <>
@@ -72,9 +78,19 @@ const GovtView = () => {
         <>
           <h1>Govt View</h1>
           <label htmlFor="username">Username</label>
-          <input type="text" placeholder="Username" value={username} onChange={(e)=> setUsername(e.target.value)}  />
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
           <label htmlFor="Password">Password</label>
-          <input type="password" placeholder="Password" value={password}  onChange={(e)=> setPassword(e.target.value)} />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <button onClick={handleLogin}>Login</button>
         </>
       )}
@@ -82,6 +98,7 @@ const GovtView = () => {
         <>
           <h1>Govt View</h1>
           <p>Welcome to the Govt View</p>
+          <button onClick={handleLogout}>Logout</button>
           <h2>All Vehicle Data</h2>
           <table>
             <thead>
@@ -106,7 +123,14 @@ const GovtView = () => {
                   <td>{vehicle.vehicleModel}</td>
                   <td>{vehicle.vehicleCompany}</td>
                   <td>{vehicle.vehicleColor}</td>
-                  <td><button disabled={vehicle.approved} onClick={() => handleApprove(index)}>Approve</button></td>
+                  <td>
+                    <button
+                      disabled={vehicle.approved}
+                      onClick={() => handleApprove(index)}
+                    >
+                      Approve
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
