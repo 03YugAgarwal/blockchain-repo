@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { contractABI, contractAddress } from "../config";
 import { Link } from "react-router-dom";
+import "./UserLogin.css";
 
 const UserLogin = () => {
   const [username, setUsername] = useState("");

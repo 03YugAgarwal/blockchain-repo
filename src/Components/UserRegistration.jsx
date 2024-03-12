@@ -71,7 +71,7 @@ const UserRegistration = () => {
 
       setUsername("");
       setPassword("");
-    // await alert("User registration successful");
+      // await alert("User registration successful");
       window.localStorage.setItem("username", username);
       navigate("/");
     } catch (error) {

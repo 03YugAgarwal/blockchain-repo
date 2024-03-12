@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { contractABI, contractAddress } from "../config";
+import { isVisible } from "@testing-library/user-event/dist/utils";
 
 const GovtView = () => {
   const storedLoginStatus = localStorage.getItem("isLoggedIn");
@@ -124,12 +125,18 @@ const GovtView = () => {
                   <td>{vehicle.vehicleCompany}</td>
                   <td>{vehicle.vehicleColor}</td>
                   <td>
-                    <button
-                      disabled={vehicle.approved}
-                      onClick={() => handleApprove(index)}
-                    >
-                      Approve
-                    </button>
+                    {!vehicle.approved && (
+                      <button
+                        disabled={vehicle.approved}
+                        style={
+                          vehicle.approved ? { backgroundColor: "grey" } : {}
+                        }
+                        onClick={() => handleApprove(index)}
+                      >
+                        Approve
+                      </button>
+                    )}
+                    {vehicle.approved && <p>Approved</p>}
                   </td>
                 </tr>
               ))}
