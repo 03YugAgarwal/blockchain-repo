@@ -111,6 +111,9 @@ const GovtView = () => {
                 <th>Vehicle Model</th>
                 <th>Vehicle Company</th>
                 <th>Vehicle Color</th>
+                <th>Document 1</th>
+                <th>Document 2</th>
+                <th>image Hash</th>
                 <th>Approve</th>
               </tr>
             </thead>
@@ -124,6 +127,36 @@ const GovtView = () => {
                   <td>{vehicle.vehicleModel}</td>
                   <td>{vehicle.vehicleCompany}</td>
                   <td>{vehicle.vehicleColor}</td>
+                  <td>
+                    <a
+                      href={vehicle.documentHash1}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Download
+                    </a>
+                  </td>
+                  {/* Accessing the second element of documentHashes if it exists */}
+                  {/* <td>{user.documentHash2}</td> */}
+                  <td>
+                    <a
+                      href={vehicle.documentHash2}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Download
+                    </a>
+                  </td>
+                  {/* <td>{user.imageHash}</td> */}
+                  <td>
+                    <a
+                      href={vehicle.imageHash}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Download
+                    </a>
+                  </td>
                   <td>
                     {!vehicle.approved && (
                       <button

@@ -72,6 +72,9 @@ const Home = () => {
               <th>Vehicle Model</th>
               <th>Vehicle Company</th>
               <th>Vehicle Color</th>
+              <th>Document 1</th>
+              <th>Document 2</th>
+              <th>image Hash</th>
             </tr>
           </thead>
           <tbody>
@@ -85,6 +88,39 @@ const Home = () => {
                     <td>{user.vehicleModel}</td>
                     <td>{user.vehicleCompany}</td>
                     <td>{user.vehicleColor}</td>
+                    {/* Accessing the first element of documentHashes if it exists */}
+                    {/* <td>{user.documentHash1}</td>
+                     */}
+                    <td>
+                      <a
+                        href={user.documentHash1}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Download
+                      </a>
+                    </td>
+                    {/* Accessing the second element of documentHashes if it exists */}
+                    {/* <td>{user.documentHash2}</td> */}
+                    <td>
+                      <a
+                        href={user.documentHash2}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Download
+                      </a>
+                    </td>
+                    {/* <td>{user.imageHash}</td> */}
+                    <td>
+                      <a
+                        href={user.imageHash}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Download
+                      </a>
+                    </td>
                   </>
                 )}
               </tr>
