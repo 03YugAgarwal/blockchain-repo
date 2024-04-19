@@ -7,6 +7,9 @@ const PINATA_SECRET_JWT = process.env.REACT_APP_PINATA_SECRET_JWT;
 console.log(PINATA_SECRET_JWT);
 
 const VehicleRegistration = () => {
+
+  const [isRegistering, setIsRegistering] = useState(false);
+
   const [username, setUsername] = useState(
     window.localStorage.getItem("username") || ""
   );
@@ -109,6 +112,7 @@ const VehicleRegistration = () => {
   // };
 
   const handleSubmit = async () => {
+    setIsRegistering(true);
     try {
       const web3 = new Web3(Web3.givenProvider || "http://127.0.0.1:7545");
       const registrationContract = new web3.eth.Contract(
@@ -179,6 +183,7 @@ const VehicleRegistration = () => {
     } catch (error) {
       console.error("Error registering data:", error);
     }
+    setIsRegistering(false);
   };
 
   return (
@@ -289,7 +294,7 @@ const VehicleRegistration = () => {
           </tr>
         </tbody>
       </table>
-      <button onClick={handleSubmit}>{"Register"}</button>
+      <button onClick={handleSubmit} className="registerbutton" disabled={isRegistering} >{ isRegistering ? "Registering" : "Register"}</button>
     </div>
   );
 };

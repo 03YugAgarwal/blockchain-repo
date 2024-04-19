@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import GovtView from "./Components/GovtView";
 import VehicleRegistration from "./Components/VehicleRegistration";
+import Transfer from "./Components/Transfer";
 
 const isUserLoggedIn = () => {
   return !!window.localStorage.getItem("username");
@@ -22,6 +23,8 @@ const routerDefinition = createRoutesFromElements(
     <Route path="/login" element={<UserLogin />} />
     <Route path="/register" element={<UserRegistration />} />
     <Route path="/govt" element={<GovtView />} />
+    <Route path="/transfer" element={<Transfer />} />
+    
   </Route>
 );
 

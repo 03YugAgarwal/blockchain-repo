@@ -60,6 +60,34 @@ contract Registration {
         require(_registerId > 0 && _registerId <= registrationCount, "Invalid registration ID");
         registrationData[_registerId].approved = true;
     }
-     
+
+    function getUserId(string memory _username) public view returns(uint) {
+        for(uint i = 1; i <= userCount; i++) {
+            if(keccak256(abi.encodePacked(users[i].username)) == keccak256(abi.encodePacked(_username))) {
+                return i;
+            }
+        }
+        return 0;
+    }
+    function getRegistrationId(string memory _vehicleNo) public view returns(uint) {
+        for(uint i = 1; i <= registrationCount; i++) {
+            if(keccak256(abi.encodePacked(registrationData[i].vehicleNo)) == keccak256(abi.encodePacked(_vehicleNo))) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    function transferOwnership(string memory _vehicleNo, string memory _username,string memory _oldUsername) public{
+        uint registerId = getRegistrationId(_vehicleNo);
+        require(registerId > 0, "Invalid vehicle number");
+        require(msg.sender == owner, "Only owner can transfer ownership");
+
+        if(keccak256(abi.encodePacked(_username)) != keccak256(abi.encodePacked(_oldUsername))) {
+            return;
+        }
+
+        registrationData[registerId].username = _username;
+    }
 
 }

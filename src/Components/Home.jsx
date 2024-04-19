@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { contractABI, contractAddress } from "../config";
+import HomeCard from "./HomeCard";
+import Navbar from "./Navbar";
 
 const Home = () => {
   const [web3, setWeb3] = useState(null);
@@ -52,91 +54,17 @@ const Home = () => {
 
   return (
     <div>
-      <button
-        onClick={() => {
-          window.localStorage.removeItem("username");
-          window.location.href = "/login";
-        }}
-      >
-        Logout
-      </button>
+      <Navbar />
       <h1>Your Registered Vehicles: </h1>
-      {localStorageUsername && (
-        <table>
-          <thead>
-            <tr>
-              <th>Status</th>
-              {/* <th>Username</th> */}
-              <th>Vehicle No</th>
-              <th>Vehicle Type</th>
-              <th>Vehicle Model</th>
-              <th>Vehicle Company</th>
-              <th>Vehicle Color</th>
-              <th>Document 1</th>
-              <th>Document 2</th>
-              <th>image Hash</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user, index) => (
-              <tr key={index}>
-                {user.username === localStorageUsername && (
-                  <>
-                    <td>{user.approved ? "Approved" : "Pending"}</td>
-                    <td>{user.vehicleNo}</td>
-                    <td>{user.vehicleType}</td>
-                    <td>{user.vehicleModel}</td>
-                    <td>{user.vehicleCompany}</td>
-                    <td>{user.vehicleColor}</td>
-                    {/* Accessing the first element of documentHashes if it exists */}
-                    {/* <td>{user.documentHash1}</td>
-                     */}
-                    <td>
-                      <a
-                        href={user.documentHash1}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Download
-                      </a>
-                    </td>
-                    {/* Accessing the second element of documentHashes if it exists */}
-                    {/* <td>{user.documentHash2}</td> */}
-                    <td>
-                      <a
-                        href={user.documentHash2}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Download
-                      </a>
-                    </td>
-                    {/* <td>{user.imageHash}</td> */}
-                    <td>
-                      <a
-                        href={user.imageHash}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Download
-                      </a>
-                    </td>
-                  </>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      <div className="homecardMain">
+        {localStorageUsername &&
+          users.map((user, index) => {
+            if (user.username === localStorageUsername ) {
+                return <HomeCard user={user} key={index} index={index} />;
+            } 
+          })}
+      </div>
 
-      <h3>Register New Vehicle</h3>
-      <button
-        onClick={() => {
-          window.location.href = "/new";
-        }}
-      >
-        Register New Vehicle
-      </button>
     </div>
   );
 };
