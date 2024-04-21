@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { contractABI, contractAddress } from "../config";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UserRegistration = () => {
   const [username, setUsername] = useState("");
@@ -13,6 +15,19 @@ const UserRegistration = () => {
     useState(null);
 
   const navigate = useNavigate();
+
+  const notify = (text) => {
+    toast(`${text}`, {
+      position: "top-center",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
 
   useEffect(() => {
     if (window.localStorage.getItem("username") !== null) {
@@ -73,7 +88,11 @@ const UserRegistration = () => {
       setPassword("");
       // await alert("User registration successful");
       window.localStorage.setItem("username", username);
-      navigate("/");
+      notify("✅ Registered successfully");
+      // navigate("/");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1500);
     } catch (error) {
       console.error("Error registering user:", error);
     }
@@ -81,42 +100,62 @@ const UserRegistration = () => {
 
   return (
     <div>
-      <h1>User Registration</h1>
-      <div>
-        <table>
-          <tr>
-            <td>
-              <label htmlFor="Username">Username: </label>
-            </td>
-            <td>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label htmlFor="Password">Password: </label>
-            </td>
-            <td>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-              <button onClick={handleSubmit}>Submit</button>
-            </td>
-          </tr>
-        </table>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={100}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <div className="container" id="container">
+        <div className="form-container sign-in">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+          >
+            <h1>Register</h1>
+            <input
+              type="text"
+              className="login-input"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              className="login-input"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button type="submit">Register</button>
+          </form>
+        </div>
+        <div className="toggle-container">
+          <div className="toggle">
+            <div className="toggle-panel toggle-right">
+              <h1 style={{ color: "white" }}>Hello, Friend!</h1>
+              <p>Already have an Account?</p>
+              <button
+                className="hidden"
+                id="register"
+                onClick={() => (window.location.href = "/")}
+              >
+                Sign In
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      Login: <Link to="/login">Login</Link>
     </div>
   );
 };

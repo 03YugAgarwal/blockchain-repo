@@ -21,7 +21,7 @@ const HomeCard = (props) => {
       console.error("Error approving marketplace:", error);
     }
   };
-  console.log(props.user);
+  console.log(props.user.imageHash);
   return (
     <div className={`homecard ${props.user.approved} `}>
       <img src={props.user.imageHash} alt="vehicle" />
@@ -30,22 +30,22 @@ const HomeCard = (props) => {
       <h3>{props.user.vehicleModel}</h3>
       <h3>{props.user.vehicleCompany}</h3>
       <h3>{props.user.vehicleColor}</h3>
-        <a
-          href={props.user.documentHash1}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Download
-        </a>
-        <a
-          href={props.user.documentHash2}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Download
-        </a>
-        {/* <button onClick={()=> window.location.href = "/transfer"} >Transfer Ownership</button> */}
-      </div>
+      <a
+        href={props.user.documentHash1}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Download
+      </a>
+      <a
+        href={props.user.documentHash2}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Download
+      </a>
+      {/* <button onClick={()=> window.location.href = "/transfer"} >Transfer Ownership</button> */}
+    </div>
   );
 };
 

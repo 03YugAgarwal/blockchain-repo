@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { contractABI, contractAddress } from "../config";
 import { Link } from "react-router-dom";
-import "./UserLogin.css";
+// import "./UserLogin.css";
+import "./login.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UserLogin = () => {
   const [username, setUsername] = useState("");
@@ -12,6 +15,19 @@ const UserLogin = () => {
   const [userRegistrationContract, setUserRegistrationContract] =
     useState(null);
   const [users, setUsers] = useState([]);
+
+  const notify = (text) => {
+    toast(`${text}`, {
+      position: "top-center",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
 
   useEffect(() => {
     if (window.localStorage.getItem("username") !== null) {
@@ -54,6 +70,8 @@ const UserLogin = () => {
   };
 
   const handleSubmit = async () => {
+    console.log(username);
+    console.log(password);
     try {
       if (!web3) {
         throw new Error("Web3 instance not initialized");
@@ -72,9 +90,14 @@ const UserLogin = () => {
       if (userExists) {
         console.log("User login successful");
         window.localStorage.setItem("username", username);
-        window.location.href = "/";
+        // window.location.href = "/";
+        notify("✅ Login Successfully");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1500);
       } else {
-        alert("Incorrect username or password");
+        notify("❌ Login Unsuccessful");
+        // alert("Incorrect username or password");
       }
 
       setUsername("");
@@ -86,42 +109,69 @@ const UserLogin = () => {
 
   return (
     <div>
-      <h1>User Login</h1>
-      <div>
-        <table>
-          <tr>
-            <td>
-              <label htmlFor="Username">Username: </label>
-            </td>
-            <td>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label htmlFor="Password">Password: </label>
-            </td>
-            <td>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>
-              <button onClick={handleSubmit}>Submit</button>
-            </td>
-          </tr>
-        </table>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={100}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <div className="container" id="container">
+        <div className="form-container sign-in">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
+          >
+            <h1>Sign In</h1>
+            <input
+              type="text"
+              className="login-input"
+              placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              className="login-input"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button>Sign In</button>
+          </form>
+        </div>
+        <div className="toggle-container">
+          <div className="toggle">
+            <div className="toggle-panel toggle-left">
+              <h1>Welcome Back!</h1>
+              <p>Enter your personal details to use all of site features</p>
+              <button className="hidden" id="login" onClick={handleSubmit}>
+                Sign In
+              </button>
+            </div>
+            <div className="toggle-panel toggle-right">
+              <h1 style={{ color: "white" }}>Hello, Friend!</h1>
+              <p>
+                Register with your personal details to use all of site features
+              </p>
+              <button
+                className="hidden"
+                id="register"
+                onClick={() => (window.location.href = "/register")}
+              >
+                Sign Up
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      New User? <Link to="/register">Register here</Link>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import Web3 from "web3";
 import { contractABI, contractAddress } from "../config";
 import HomeCard from "./HomeCard";
 import Navbar from "./Navbar";
+import "./UserLogin.css";
 
 const Home = () => {
   const [web3, setWeb3] = useState(null);
@@ -55,16 +56,15 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <h1>Your Registered Vehicles: </h1>
+      <h1 style={{ marginTop: "10px" }}>Your Registered Vehicles: </h1>
       <div className="homecardMain">
         {localStorageUsername &&
           users.map((user, index) => {
-            if (user.username === localStorageUsername ) {
-                return <HomeCard user={user} key={index} index={index} />;
-            } 
+            if (user.username === localStorageUsername) {
+              return <HomeCard user={user} key={index} index={index} />;
+            }
           })}
       </div>
-
     </div>
   );
 };

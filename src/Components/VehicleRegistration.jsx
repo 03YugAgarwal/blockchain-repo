@@ -1,13 +1,13 @@
 import React, { useState, useRef } from "react";
 import Web3 from "web3";
 import { contractABI, contractAddress } from "../config";
+import Navbar from "./Navbar";
 
 const PINATA_SECRET_JWT = process.env.REACT_APP_PINATA_SECRET_JWT;
 
 console.log(PINATA_SECRET_JWT);
 
 const VehicleRegistration = () => {
-
   const [isRegistering, setIsRegistering] = useState(false);
 
   const [username, setUsername] = useState(
@@ -188,8 +188,9 @@ const VehicleRegistration = () => {
 
   return (
     <div>
-      <h1>Registration Form</h1>
-      <table>
+      <Navbar />
+      <h1 style={{ marginTop: "10px" }}>Registration Form</h1>
+      <table style={{ width: "auto", marginLeft: "35%" }}>
         <tbody>
           <tr>
             <td>Vehicle Number:</td>
@@ -294,7 +295,14 @@ const VehicleRegistration = () => {
           </tr>
         </tbody>
       </table>
-      <button onClick={handleSubmit} className="registerbutton" disabled={isRegistering} >{ isRegistering ? "Registering" : "Register"}</button>
+      <button
+        onClick={handleSubmit}
+        className="registerbutton"
+        disabled={isRegistering}
+        style={{ marginLeft: "47%" }}
+      >
+        {isRegistering ? "Registering" : "Register"}
+      </button>
     </div>
   );
 };
