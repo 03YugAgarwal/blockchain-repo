@@ -24,25 +24,30 @@ const HomeCard = (props) => {
   console.log(props.user.imageHash);
   return (
     <div className={`homecard ${props.user.approved} `}>
+      <h2 style={{ marginBottom: "18px" }}>
+        {props.user.approved ? "Approved" : "Not Approved"}
+      </h2>
       <img src={props.user.imageHash} alt="vehicle" />
-      <h3>{props.user.vehicleNo}</h3>
-      <h3>{props.user.vehicleType}</h3>
-      <h3>{props.user.vehicleModel}</h3>
-      <h3>{props.user.vehicleCompany}</h3>
-      <h3>{props.user.vehicleColor}</h3>
+      <h3 style={{ margin: "3px" }}>{props.user.vehicleNo}</h3>
+      <h3 style={{ margin: "3px" }}>{props.user.vehicleType}</h3>
+      <h3 style={{ margin: "3px" }}>{props.user.vehicleModel}</h3>
+      <h3 style={{ margin: "3px" }}>{props.user.vehicleCompany}</h3>
+      <h3 style={{ margin: "3px" }}>{props.user.vehicleColor}</h3>
       <a
+        style={{ margin: "3px" }}
         href={props.user.documentHash1}
         target="_blank"
         rel="noopener noreferrer"
       >
-        Download
+        Document 1 Download
       </a>
       <a
+        style={{ margin: "3px" }}
         href={props.user.documentHash2}
         target="_blank"
         rel="noopener noreferrer"
       >
-        Download
+        Document 2 Download
       </a>
       {/* <button onClick={()=> window.location.href = "/transfer"} >Transfer Ownership</button> */}
     </div>
