@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { contractABI, contractAddress } from "../config";
 import { isVisible } from "@testing-library/user-event/dist/utils";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const GovtView = () => {
   const storedLoginStatus = localStorage.getItem("isLoggedIn");
@@ -9,7 +11,18 @@ const GovtView = () => {
   const [vehicleData, setVehicleData] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const notify = (text) => {
+    toast(`${text}`, {
+      position: "top-center",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
   useEffect(() => {
     const fetchVehicleData = async () => {
       try {
@@ -53,19 +66,26 @@ const GovtView = () => {
       const updatedVehicleData = [...vehicleData];
       updatedVehicleData[index].approved = true;
       setVehicleData(updatedVehicleData);
-      window.location.reload();
     } catch (error) {
       console.error("Error approving registration:", error);
     }
   };
 
   const handleLogin = () => {
+    console.log("Govt");
     if (username !== "govt") {
-      alert("Invalid Credentials");
+      // alert("Invalid Credentials");
+      notify("❌ Login Unsuccessfully");
       return;
     }
+    console.log("Govt");
     localStorage.setItem("isLoggedIn", "true");
-    setIsLoggedIn(true);
+    notify("✅ Login Successfully");
+    setTimeout(() => {
+      setIsLoggedIn(true);
+      // window.location.href = "/";
+      // window.location.reload();
+    }, 1500);
   };
 
   const handleLogout = () => {
@@ -76,24 +96,65 @@ const GovtView = () => {
   return (
     <>
       {!isLoggedIn && (
-        <>
-          <h1>Govt View</h1>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+        <div>
+          <ToastContainer
+            position="bottom-center"
+            autoClose={100}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
           />
-          <label htmlFor="Password">Password</label>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button onClick={handleLogin}>Login</button>
-        </>
+          <div className="container" id="container">
+            <div className="form-container sign-in">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleLogin();
+                }}
+              >
+                <h1>Sign In</h1>
+                <input
+                  type="text"
+                  className="login-input"
+                  placeholder="Username"
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+                <input
+                  type="password"
+                  className="login-input"
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button>Sign In</button>
+              </form>
+            </div>
+            <div className="toggle-container">
+              <div className="toggle">
+                <div className="toggle-panel toggle-left">
+                  <h1>Welcome Back!</h1>
+                  <p>Enter your personal details to use all site features</p>
+                  <button className="hidden" id="login" onClick={handleLogin}>
+                    Sign In
+                  </button>
+                </div>
+                <div className="toggle-panel toggle-right">
+                  <h1 style={{ color: "white" }}>Government</h1>
+                  <h1 style={{ color: "white" }}>Login</h1>
+                  {/* <p>
+                      Register with your personal details to use all site features
+                    </p> */}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
       {isLoggedIn && (
         <>
@@ -182,3 +243,108 @@ const GovtView = () => {
 };
 
 export default GovtView;
+
+// <>
+//   {!isLoggedIn && (
+//     <>
+//       <h1>Govt View</h1>
+//       <label htmlFor="username">Username</label>
+//       <input
+//         type="text"
+//         placeholder="Username"
+//         value={username}
+//         onChange={(e) => setUsername(e.target.value)}
+//       />
+//       <label htmlFor="Password">Password</label>
+//       <input
+//         type="password"
+//         placeholder="Password"
+//         value={password}
+//         onChange={(e) => setPassword(e.target.value)}
+//       />
+//       <button onClick={handleLogin}>Login</button>
+//     </>
+//   )}
+//   {isLoggedIn && (
+//     <>
+//       <h1>Govt View</h1>
+//       <p>Welcome to the Govt View</p>
+//       <button onClick={handleLogout}>Logout</button>
+//       <h2>All Vehicle Data</h2>
+//       <table>
+//         <thead>
+//           <tr>
+//             <th>Status</th>
+//             <th>Username</th>
+//             <th>Vehicle No</th>
+//             <th>Vehicle Type</th>
+//             <th>Vehicle Model</th>
+//             <th>Vehicle Company</th>
+//             <th>Vehicle Color</th>
+//             <th>Document 1</th>
+//             <th>Document 2</th>
+//             <th>image Hash</th>
+//             <th>Approve</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {vehicleData.map((vehicle, index) => (
+//             <tr key={index}>
+//               <td>{vehicle.approved ? "Approved" : "Pending"}</td>
+//               <td>{vehicle.username}</td>
+//               <td>{vehicle.vehicleNo}</td>
+//               <td>{vehicle.vehicleType}</td>
+//               <td>{vehicle.vehicleModel}</td>
+//               <td>{vehicle.vehicleCompany}</td>
+//               <td>{vehicle.vehicleColor}</td>
+//               <td>
+//                 <a
+//                   href={vehicle.documentHash1}
+//                   target="_blank"
+//                   rel="noopener noreferrer"
+//                 >
+//                   Download
+//                 </a>
+//               </td>
+//               {/* Accessing the second element of documentHashes if it exists */}
+//               {/* <td>{user.documentHash2}</td> */}
+//               <td>
+//                 <a
+//                   href={vehicle.documentHash2}
+//                   target="_blank"
+//                   rel="noopener noreferrer"
+//                 >
+//                   Download
+//                 </a>
+//               </td>
+//               {/* <td>{user.imageHash}</td> */}
+//               <td>
+//                 <a
+//                   href={vehicle.imageHash}
+//                   target="_blank"
+//                   rel="noopener noreferrer"
+//                 >
+//                   Download
+//                 </a>
+//               </td>
+//               <td>
+//                 {!vehicle.approved && (
+//                   <button
+//                     disabled={vehicle.approved}
+//                     style={
+//                       vehicle.approved ? { backgroundColor: "grey" } : {}
+//                     }
+//                     onClick={() => handleApprove(index)}
+//                   >
+//                     Approve
+//                   </button>
+//                 )}
+//                 {vehicle.approved && <p>Approved</p>}
+//               </td>
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
+//     </>
+//   )}
+// </>
