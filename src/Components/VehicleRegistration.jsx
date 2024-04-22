@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 
 const PINATA_SECRET_JWT = process.env.REACT_APP_PINATA_SECRET_JWT;
 
-console.log(PINATA_SECRET_JWT);
+// console.log(PINATA_SECRET_JWT);
 
 const VehicleRegistration = () => {
   const [isRegistering, setIsRegistering] = useState(false);

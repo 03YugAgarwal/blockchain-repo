@@ -44,6 +44,7 @@ const UserLogin = () => {
         const accounts = await web3.eth.getAccounts();
         setUserRegistrationContract(userRegistrationContract);
         setAccount(accounts[0]);
+        console.log(accounts);
         await fetchUserData(userRegistrationContract);
       } catch (error) {
         console.error("Error loading blockchain data:", error);

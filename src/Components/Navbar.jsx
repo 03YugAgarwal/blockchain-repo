@@ -11,7 +11,7 @@ const Navbar = () => {
       >
         Vehicle Registration
       </h1>
-      <h3 style={{ marginLeft: "600px", color: "white" }}>
+      <h3 style={{ marginLeft: "550px", color: "white" }}>
         Username: {window.localStorage.getItem("username")}
       </h3>
       <div>
@@ -36,6 +36,7 @@ const Navbar = () => {
             window.location.href = "/login";
           }}
           className="logoutbutton"
+          style={{ backgroundColor: "red", fontWeight: "bold" }}
         >
           Logout
         </button>

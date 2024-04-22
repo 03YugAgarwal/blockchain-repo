@@ -158,10 +158,18 @@ const GovtView = () => {
       )}
       {isLoggedIn && (
         <>
-          <h1>Govt View</h1>
-          <p>Welcome to the Govt View</p>
-          <button onClick={handleLogout}>Logout</button>
-          <h2>All Vehicle Data</h2>
+          <div className="centered-text">
+            <h1 style={{ marginTop: "10px" }}>Govt View</h1>
+            <h2 style={{ marginTop: "40px" }}>Welcome to the Govt View</h2>
+          </div>
+          <button
+            className="logout-button"
+            style={{ backgroundColor: "red", fontWeight: "bold" }}
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+          <h2 style={{ marginTop: "20px" }}>All Vehicle Data</h2>
           <table>
             <thead>
               <tr>
